@@ -1,13 +1,14 @@
 import axios from "axios";
+import useAuthStore from "../store/authStore";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-  withCredentials: false,
+  // Remove withCredentials — you're not using cookies anymore
 });
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("echo-token");
+    const token = useAuthStore.getState().token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -19,10 +20,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("echo-token");
-      window.location.href = "/";
-    }
+    // Don't redirect here — let the store handle it
     return Promise.reject(error);
   },
 );
