@@ -13,18 +13,24 @@ import History from "./pages/History";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 
+
+import useThemeStore from "./store/themeStore";
+
 const App = () => {
   const { fetchUser } = useAuthStore();
+  const { isDark } = useThemeStore();
 
   useEffect(() => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
   return (
     <Routes>
       {/* Public */}
       <Route path="/" element={<Landing />} />
-
       {/* Protected */}
       <Route
         path="/dashboard"
@@ -58,6 +64,16 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      // Add inside Routes:
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <Account />
+          </ProtectedRoute>
+        }
+      />
+      ;
       <Route
         path="/notes/:id/study"
         element={
@@ -90,15 +106,6 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/account"
-        element={
-          <ProtectedRoute>
-            <Account />
-          </ProtectedRoute>
-        }
-      />
-
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

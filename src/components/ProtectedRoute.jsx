@@ -3,30 +3,19 @@ import { Navigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isLoading, fetchUser } = useAuthStore();
+
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
   if (isLoading) {
     return (
-      <div
-        style={{
-          minHeight: "100dvh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#fff",
-        }}
-      >
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            border: "4px solid #F5F5F4",
-            borderTop: "4px solid #F95E08",
-            borderRadius: "50%",
-            animation: "spin 1s linear infinite",
-          }}
-        />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <p className="text-muted-foreground text-sm">Loading...</p>
+        </div>
       </div>
     );
   }

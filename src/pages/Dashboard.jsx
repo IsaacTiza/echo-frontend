@@ -20,14 +20,9 @@ const Dashboard = () => {
   const { notes, isLoading, fetchNotes, deleteNote } = useNoteStore();
   const navigate = useNavigate();
 
- useEffect(() => {
-   const token = searchParams.get("token");
-   if (token) {
-     setToken(token);
-     window.history.replaceState({}, "", "/dashboard");
-   }
-   fetchNotes();
- }, []);
+  useEffect(() => {
+    fetchNotes();
+  }, []);
 
   const handleDelete = async (e, id) => {
     e.stopPropagation();
