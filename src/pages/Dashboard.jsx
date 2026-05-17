@@ -106,7 +106,7 @@ const handleDelete = async (e, id) => {
           <div>
             <p className="text-white font-bold text-lg">Upload a Note</p>
             <p className="text-white/80 text-sm mt-1">
-              PDF, image, text, DOCX, PPTX
+              PDF, image, text, DOCX
             </p>
           </div>
           <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
