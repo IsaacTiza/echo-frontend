@@ -153,7 +153,7 @@ const handleDelete = async (e, id) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   onClick={() => navigate(`/notes/${note._id}/mode`)}
-                  className="bg-card rounded-2xl p-4 flex items-center gap-4 card-shadow active:scale-95 transition-transform cursor-pointer"
+                  className="bg-card rounded-2xl p-4 flex items-center gap-4 card-shadow cursor-pointer"
                 >
                   <div
                     className={`w-12 h-12 ${config.color} rounded-xl flex items-center justify-center flex-shrink-0`}
@@ -178,13 +178,24 @@ const handleDelete = async (e, id) => {
                       )}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={(e) => handleDelete(e, note._id)}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-muted active:scale-95 transition-transform flex-shrink-0"
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                    }}
                   >
-                    <Trash2 className="w-4 h-4 text-muted-foreground" />
-                  </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleDelete(e, note._id);
+                      }}
+                      className="w-9 h-9 flex items-center justify-center rounded-xl bg-muted flex-shrink-0"
+                    >
+                      <Trash2 className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                  </div>
                 </motion.div>
               );
             })}
