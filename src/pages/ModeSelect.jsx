@@ -20,39 +20,28 @@ const ModeSelect = () => {
 const handleDownloadNote = async () => {
   setDownloading(true);
   try {
-    if (currentNote?.fileUrl) {
-      const extMap = {
-        pdf: ".pdf",
-        image: ".jpg",
-        docx: ".docx",
-        txt: ".txt",
-      };
-      const ext = extMap[currentNote.type] || "";
-      const filename =
-        currentNote?.originalFilename || `${currentNote.title}${ext}`;
+    const response = await api.get(`/notes/${id}/download`, {
+      responseType: "blob",
+    });
 
-      const link = document.createElement("a");
-      link.href = currentNote.fileUrl;
-      link.setAttribute("download", filename);
-      link.setAttribute("target", "_blank");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      toast.success("Note downloaded");
-    } else if (currentNote?.content) {
-      const blob = new Blob([currentNote.content], { type: "text/plain" });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${currentNote.title}.txt`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-      toast.success("Note downloaded");
-    } else {
-      toast.error("No content to download");
+    const contentDisposition = response.headers["content-disposition"];
+    let filename =
+      currentNote?.originalFilename || currentNote?.title || "note";
+
+    if (contentDisposition) {
+      const match = contentDisposition.match(/filename="(.+)"/);
+      if (match) filename = match[1];
     }
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+    toast.success("Note downloaded");
   } catch {
     toast.error("Failed to download note");
   } finally {
