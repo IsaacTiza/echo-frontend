@@ -14,10 +14,10 @@ const Settings = () => {
   const usagePercent = (dailyUsage / dailyLimit) * 100;
 
   return (
-    <div className="min-h-dvh bg-[#F5F5F4] pb-24">
+    <div className="min-h-dvh bg-muted pb-24">
       {/* Header */}
-      <div className="bg-white px-6 pt-14 pb-6">
-        <h1 className="text-xl font-bold text-[#1C1B19]">Settings</h1>
+      <div className="bg-card px-6 pt-14 pb-6">
+        <h1 className="text-xl font-bold text-foreground">Settings</h1>
       </div>
 
       <div className="px-6 mt-6 space-y-4">
@@ -26,7 +26,7 @@ const Settings = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-white rounded-2xl p-5 flex items-center gap-4 card-shadow"
+          className="bg-card rounded-2xl p-5 flex items-center gap-4 card-shadow"
         >
           <img
             src={user?.avatar}
@@ -34,13 +34,15 @@ const Settings = () => {
             className="w-16 h-16 rounded-2xl object-cover"
           />
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-[#1C1B19] text-lg truncate">
+            <p className="font-bold text-foreground text-lg truncate">
               {user?.name}
             </p>
-            <p className="text-sm text-[#78716C] truncate">{user?.email}</p>
+            <p className="text-sm text-muted-foreground truncate">
+              {user?.email}
+            </p>
             <div className="flex items-center gap-1 mt-1">
-              <div className="w-2 h-2 rounded-full bg-[#22C55E]" />
-              <p className="text-xs text-[#78716C] capitalize">
+              <div className="w-2 h-2 rounded-full bg-success" />
+              <p className="text-xs text-muted-foreground capitalize">
                 {user?.provider} account
               </p>
             </div>
@@ -52,46 +54,43 @@ const Settings = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-white rounded-2xl p-5 card-shadow"
+          className="bg-card rounded-2xl p-5 card-shadow"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="font-bold text-[#1C1B19]">AI Credits</p>
-              <p className="text-xs text-[#78716C]">Resets every midnight</p>
+              <p className="font-bold text-foreground">AI Credits</p>
+              <p className="text-xs text-muted-foreground">
+                Resets every midnight
+              </p>
             </div>
           </div>
 
-          {/* Usage Bar */}
-          <div className="w-full h-3 bg-[#F5F5F4] rounded-full mb-3">
+          <div className="w-full h-3 bg-muted rounded-full mb-3">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${usagePercent}%` }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className={`h-full rounded-full ${
-                usagePercent >= 80 ? "bg-[#EF4444]" : "gradient-primary"
-              }`}
+              className={`h-full rounded-full ${usagePercent >= 80 ? "bg-destructive" : "gradient-primary"}`}
             />
           </div>
 
           <div className="flex items-center justify-between">
-            <p className="text-sm text-[#78716C]">
+            <p className="text-sm text-muted-foreground">
               {dailyUsage} of {dailyLimit} used today
             </p>
             <p
-              className={`text-sm font-bold ${
-                remaining === 0 ? "text-[#EF4444]" : "text-[#F95E08]"
-              }`}
+              className={`text-sm font-bold ${remaining === 0 ? "text-destructive" : "text-primary"}`}
             >
               {remaining} left
             </p>
           </div>
 
           {remaining === 0 && (
-            <div className="mt-3 bg-[#FEF2F2] rounded-xl p-3">
-              <p className="text-xs text-[#EF4444] font-medium">
+            <div className="mt-3 bg-destructive/10 rounded-xl p-3">
+              <p className="text-xs text-destructive font-medium">
                 Daily limit reached. Credits refill at midnight.
               </p>
             </div>
@@ -103,14 +102,14 @@ const Settings = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white rounded-2xl overflow-hidden card-shadow"
+          className="bg-card rounded-2xl overflow-hidden card-shadow"
         >
           {[
             {
               icon: User,
               label: "Account",
               sub: "Manage your account details",
-              action: null,
+              action: () => navigate("/account"),
             },
             {
               icon: Shield,
@@ -124,18 +123,18 @@ const Settings = () => {
               <button
                 key={i}
                 onClick={item.action}
-                className="w-full flex items-center gap-4 px-5 py-4 border-b border-[#F5F5F4] last:border-0 active:bg-[#F5F5F4] transition-colors"
+                className="w-full flex items-center gap-4 px-5 py-4 border-b border-border last:border-0 active:bg-muted transition-colors"
               >
-                <div className="w-10 h-10 bg-[#F5F5F4] rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-[#78716C]" />
+                <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-5 h-5 text-muted-foreground" />
                 </div>
                 <div className="flex-1 text-left">
-                  <p className="font-semibold text-[#1C1B19] text-sm">
+                  <p className="font-semibold text-foreground text-sm">
                     {item.label}
                   </p>
-                  <p className="text-xs text-[#78716C]">{item.sub}</p>
+                  <p className="text-xs text-muted-foreground">{item.sub}</p>
                 </div>
-                <ChevronRight className="w-4 h-4 text-[#78716C]" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </button>
             );
           })}
@@ -146,15 +145,15 @@ const Settings = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="bg-white rounded-2xl p-5 card-shadow"
+          className="bg-card rounded-2xl p-5 card-shadow"
         >
           <div className="flex items-center justify-between">
-            <p className="text-sm text-[#78716C]">Version</p>
-            <p className="text-sm font-semibold text-[#1C1B19]">1.0.0</p>
+            <p className="text-sm text-muted-foreground">Version</p>
+            <p className="text-sm font-semibold text-foreground">1.0.0</p>
           </div>
           <div className="flex items-center justify-between mt-3">
-            <p className="text-sm text-[#78716C]">Made with</p>
-            <p className="text-sm font-semibold text-[#1C1B19]">
+            <p className="text-sm text-muted-foreground">Made with</p>
+            <p className="text-sm font-semibold text-foreground">
               ❤️ for students
             </p>
           </div>
@@ -166,10 +165,10 @@ const Settings = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4 }}
           onClick={logout}
-          className="w-full flex items-center justify-center gap-3 bg-[#FEF2F2] py-4 rounded-2xl active:scale-95 transition-transform"
+          className="w-full flex items-center justify-center gap-3 bg-destructive/10 py-4 rounded-2xl active:scale-95 transition-transform"
         >
-          <LogOut className="w-5 h-5 text-[#EF4444]" />
-          <span className="font-bold text-[#EF4444]">Sign Out</span>
+          <LogOut className="w-5 h-5 text-destructive" />
+          <span className="font-bold text-destructive">Sign Out</span>
         </motion.button>
       </div>
       <Navbar />

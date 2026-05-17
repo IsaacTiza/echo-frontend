@@ -71,7 +71,7 @@ const ExplainView = () => {
     <div
       style={{
         minHeight: "100dvh",
-        background: "#fff",
+        background: "var(--color-background)",
         fontFamily: "Onest Variable, sans-serif",
         paddingBottom: 40,
       }}
@@ -91,7 +91,7 @@ const ExplainView = () => {
             width: 40,
             height: 40,
             borderRadius: 12,
-            background: "#F5F5F4",
+            background: "var(--color-muted)",
             border: "none",
             cursor: "pointer",
             display: "flex",
@@ -99,17 +99,23 @@ const ExplainView = () => {
             justifyContent: "center",
           }}
         >
-          <ArrowLeft size={20} color="#1C1B19" />
+          <ArrowLeft size={20} color="var(--color-foreground)" />
         </button>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 11, color: "#78716C", margin: 0 }}>
+          <p
+            style={{
+              fontSize: 11,
+              color: "var(--color-muted-foreground)",
+              margin: 0,
+            }}
+          >
             Understand
           </p>
           <h1
             style={{
               fontSize: 17,
               fontWeight: 700,
-              color: "#1C1B19",
+              color: "var(--color-foreground)",
               margin: 0,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -127,7 +133,7 @@ const ExplainView = () => {
               width: 40,
               height: 40,
               borderRadius: 12,
-              background: "#F5F5F4",
+              background: "var(--color-muted)",
               border: "none",
               cursor: "pointer",
               display: "flex",
@@ -137,7 +143,7 @@ const ExplainView = () => {
           >
             <RefreshCw
               size={20}
-              color="#1C1B19"
+              color="var(--color-foreground)"
               style={{
                 animation: isLoading ? "spin 1s linear infinite" : "none",
               }}
@@ -171,8 +177,9 @@ const ExplainView = () => {
               background:
                 tone === t.value
                   ? "linear-gradient(135deg, #F95E08, #FE8118)"
-                  : "#F5F5F4",
-              color: tone === t.value ? "white" : "#78716C",
+                  : "var(--color-muted)",
+              color:
+                tone === t.value ? "white" : "var(--color-muted-foreground)",
             }}
           >
             {t.label}
@@ -197,13 +204,13 @@ const ExplainView = () => {
               style={{
                 width: 48,
                 height: 48,
-                border: "4px solid #F5F5F4",
+                border: "4px solid var(--color-muted)",
                 borderTop: "4px solid #F95E08",
                 borderRadius: "50%",
                 animation: "spin 1s linear infinite",
               }}
             />
-            <p style={{ color: "#78716C", fontSize: 14 }}>
+            <p style={{ color: "var(--color-muted-foreground)", fontSize: 14 }}>
               Echo is reading your note...
             </p>
           </div>
@@ -213,7 +220,11 @@ const ExplainView = () => {
             animate={{ opacity: 1, y: 0 }}
           >
             <div
-              style={{ background: "#F5F5F4", borderRadius: 20, padding: 20 }}
+              style={{
+                background: "var(--color-muted)",
+                borderRadius: 20,
+                padding: 20,
+              }}
             >
               <div
                 style={{
@@ -237,12 +248,22 @@ const ExplainView = () => {
                   <BookOpen size={16} color="white" />
                 </div>
                 <span
-                  style={{ fontWeight: 700, fontSize: 14, color: "#1C1B19" }}
+                  style={{
+                    fontWeight: 700,
+                    fontSize: 14,
+                    color: "var(--color-foreground)",
+                  }}
                 >
                   Echo's Explanation
                 </span>
               </div>
-              <div style={{ fontSize: 14, color: "#1C1B19", lineHeight: 1.7 }}>
+              <div
+                style={{
+                  fontSize: 14,
+                  color: "var(--color-foreground)",
+                  lineHeight: 1.7,
+                }}
+              >
                 <ReactMarkdown
                   components={{
                     h1: ({ children }) => (
@@ -250,7 +271,7 @@ const ExplainView = () => {
                         style={{
                           fontSize: 20,
                           fontWeight: 800,
-                          color: "#1C1B19",
+                          color: "var(--color-foreground)",
                           margin: "16px 0 8px",
                         }}
                       >
@@ -262,7 +283,7 @@ const ExplainView = () => {
                         style={{
                           fontSize: 17,
                           fontWeight: 700,
-                          color: "#1C1B19",
+                          color: "var(--color-foreground)",
                           margin: "14px 0 6px",
                         }}
                       >
@@ -286,19 +307,29 @@ const ExplainView = () => {
                         style={{
                           margin: "8px 0",
                           lineHeight: 1.7,
-                          color: "#1C1B19",
+                          color: "var(--color-foreground)",
                         }}
                       >
                         {children}
                       </p>
                     ),
                     strong: ({ children }) => (
-                      <strong style={{ fontWeight: 700, color: "#1C1B19" }}>
+                      <strong
+                        style={{
+                          fontWeight: 700,
+                          color: "var(--color-foreground)",
+                        }}
+                      >
                         {children}
                       </strong>
                     ),
                     em: ({ children }) => (
-                      <em style={{ color: "#78716C", fontStyle: "italic" }}>
+                      <em
+                        style={{
+                          color: "var(--color-muted-foreground)",
+                          fontStyle: "italic",
+                        }}
+                      >
                         {children}
                       </em>
                     ),
@@ -316,7 +347,7 @@ const ExplainView = () => {
                       <li
                         style={{
                           margin: "4px 0",
-                          color: "#1C1B19",
+                          color: "var(--color-foreground)",
                           lineHeight: 1.6,
                         }}
                       >
@@ -327,7 +358,7 @@ const ExplainView = () => {
                       <hr
                         style={{
                           border: "none",
-                          borderTop: "1px solid #E7E5E4",
+                          borderTop: "1px solid var(--color-border)",
                           margin: "16px 0",
                         }}
                       />
@@ -338,7 +369,7 @@ const ExplainView = () => {
                           borderLeft: "3px solid #F95E08",
                           paddingLeft: 12,
                           margin: "12px 0",
-                          color: "#78716C",
+                          color: "var(--color-muted-foreground)",
                         }}
                       >
                         {children}
@@ -355,12 +386,12 @@ const ExplainView = () => {
               style={{
                 width: "100%",
                 marginTop: 16,
-                background: "#1C1B19",
+                background: "var(--color-foreground)",
                 padding: "16px",
                 borderRadius: 16,
                 border: "none",
                 cursor: "pointer",
-                color: "white",
+                color: "var(--color-background)",
                 fontWeight: 700,
                 fontSize: 15,
               }}
@@ -394,10 +425,22 @@ const ExplainView = () => {
               <BookOpen size={32} color="white" />
             </div>
             <div>
-              <p style={{ fontWeight: 700, fontSize: 18, color: "#1C1B19" }}>
+              <p
+                style={{
+                  fontWeight: 700,
+                  fontSize: 18,
+                  color: "var(--color-foreground)",
+                }}
+              >
                 Ready to explain
               </p>
-              <p style={{ color: "#78716C", fontSize: 14, marginTop: 4 }}>
+              <p
+                style={{
+                  color: "var(--color-muted-foreground)",
+                  fontSize: 14,
+                  marginTop: 4,
+                }}
+              >
                 Pick a tone above to get started
               </p>
             </div>

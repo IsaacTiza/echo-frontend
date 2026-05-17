@@ -14,33 +14,32 @@ const ModeSelect = () => {
   }, [id]);
 
   return (
-    <div className="min-h-dvh bg-white px-6 pt-14 pb-10">
+    <div className="min-h-dvh bg-background px-6 pt-14 pb-10">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-[#F5F5F4] flex items-center justify-center active:scale-95 transition-transform"
+          className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center active:scale-95 transition-transform"
         >
-          <ArrowLeft className="w-5 h-5 text-[#1C1B19]" />
+          <ArrowLeft className="w-5 h-5 text-foreground" />
         </button>
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-[#78716C]">Selected Note</p>
-          <h1 className="text-lg font-bold text-[#1C1B19] truncate">
+          <p className="text-xs text-muted-foreground">Selected Note</p>
+          <h1 className="text-lg font-bold text-foreground truncate">
             {isLoading ? "Loading..." : currentNote?.title}
           </h1>
         </div>
       </div>
 
-      {/* Mode Selection */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <h2 className="text-2xl font-bold text-[#1C1B19] mb-2">
+        <h2 className="text-2xl font-bold text-foreground mb-2">
           How do you want to study?
         </h2>
-        <p className="text-[#78716C] text-sm mb-8">
+        <p className="text-muted-foreground text-sm mb-8">
           Choose a mode to get started with your note.
         </p>
 
@@ -81,7 +80,7 @@ const ModeSelect = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
             onClick={() => navigate(`/notes/${id}/study`)}
-            className="w-full text-left bg-[#1C1B19] rounded-2xl p-6 active:scale-95 transition-transform"
+            className="w-full text-left bg-[#1C1B19] dark:bg-[#2C2B28] rounded-2xl p-6 active:scale-95 transition-transform"
           >
             <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-4">
               <Zap className="w-6 h-6 text-white" />

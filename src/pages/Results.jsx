@@ -10,85 +10,36 @@ const MarkdownContent = ({ content }) => (
   <ReactMarkdown
     components={{
       h1: ({ children }) => (
-        <h1
-          style={{
-            fontSize: 18,
-            fontWeight: 800,
-            color: "#1C1B19",
-            margin: "12px 0 6px",
-          }}
-        >
+        <h1 className="text-lg font-extrabold text-foreground mt-3 mb-1">
           {children}
         </h1>
       ),
       h2: ({ children }) => (
-        <h2
-          style={{
-            fontSize: 16,
-            fontWeight: 700,
-            color: "#1C1B19",
-            margin: "10px 0 4px",
-          }}
-        >
+        <h2 className="text-base font-bold text-foreground mt-2 mb-1">
           {children}
         </h2>
       ),
       h3: ({ children }) => (
-        <h3
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            color: "#F95E08",
-            margin: "8px 0 4px",
-          }}
-        >
-          {children}
-        </h3>
+        <h3 className="text-sm font-bold text-primary mt-2 mb-1">{children}</h3>
       ),
       p: ({ children }) => (
-        <p
-          style={{
-            margin: "6px 0",
-            lineHeight: 1.7,
-            color: "#1C1B19",
-            fontSize: 14,
-          }}
-        >
+        <p className="text-sm text-foreground leading-relaxed my-1">
           {children}
         </p>
       ),
       strong: ({ children }) => (
-        <strong style={{ fontWeight: 700, color: "#1C1B19" }}>
-          {children}
-        </strong>
+        <strong className="font-bold text-foreground">{children}</strong>
       ),
-      ul: ({ children }) => (
-        <ul style={{ margin: "6px 0", paddingLeft: 18 }}>{children}</ul>
-      ),
+      ul: ({ children }) => <ul className="my-1 pl-4 list-disc">{children}</ul>,
       ol: ({ children }) => (
-        <ol style={{ margin: "6px 0", paddingLeft: 18 }}>{children}</ol>
+        <ol className="my-1 pl-4 list-decimal">{children}</ol>
       ),
       li: ({ children }) => (
-        <li
-          style={{
-            margin: "3px 0",
-            color: "#1C1B19",
-            lineHeight: 1.6,
-            fontSize: 14,
-          }}
-        >
+        <li className="text-sm text-foreground leading-relaxed my-0.5">
           {children}
         </li>
       ),
-      hr: () => (
-        <hr
-          style={{
-            border: "none",
-            borderTop: "1px solid #E7E5E4",
-            margin: "12px 0",
-          }}
-        />
-      ),
+      hr: () => <hr className="border-border my-3" />,
     }}
   >
     {content}
@@ -111,9 +62,7 @@ const Results = () => {
   const passed = failed.length === 0;
 
   useEffect(() => {
-    if (!passed && failed.length > 0) {
-      fetchFailedExplanation();
-    }
+    if (!passed && failed.length > 0) fetchFailedExplanation();
   }, []);
 
   const fetchFailedExplanation = async () => {
@@ -138,122 +87,41 @@ const Results = () => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100dvh",
-        background: "#fff",
-        fontFamily: "Onest Variable, sans-serif",
-        paddingBottom: 40,
-      }}
-    >
+    <div className="min-h-dvh bg-background pb-10">
       {/* Header */}
-      <div
-        style={{
-          padding: "56px 24px 16px",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-        }}
-      >
+      <div className="px-6 pt-14 pb-4 flex items-center gap-4">
         <button
           onClick={() => navigate("/dashboard")}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 12,
-            background: "#F5F5F4",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center active:scale-95 transition-transform"
         >
-          <ArrowLeft size={20} color="#1C1B19" />
+          <ArrowLeft className="w-5 h-5 text-foreground" />
         </button>
-        <h1
-          style={{ fontSize: 18, fontWeight: 700, color: "#1C1B19", margin: 0 }}
-        >
-          Quiz Results
-        </h1>
+        <h1 className="text-lg font-bold text-foreground">Quiz Results</h1>
       </div>
 
-      <div style={{ padding: "0 24px" }}>
+      <div className="px-6">
         {/* Score Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          style={{
-            background: "linear-gradient(135deg, #F95E08, #FE8118)",
-            borderRadius: 24,
-            padding: 32,
-            textAlign: "center",
-            marginBottom: 20,
-          }}
+          className="gradient-primary rounded-3xl p-8 flex flex-col items-center text-center mb-5"
         >
-          <p
-            style={{
-              color: "rgba(255,255,255,0.8)",
-              fontSize: 13,
-              margin: "0 0 4px",
-            }}
-          >
-            Your Score
-          </p>
-          <p
-            style={{
-              color: "white",
-              fontSize: 72,
-              fontWeight: 800,
-              margin: 0,
-              lineHeight: 1,
-            }}
-          >
+          <p className="text-white/80 text-sm mb-1">Your Score</p>
+          <p className="text-7xl font-extrabold text-white leading-none">
             {score}%
           </p>
-          <p
-            style={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: 16,
-              margin: "8px 0 0",
-            }}
-          >
+          <p className="text-white font-semibold text-lg mt-2">
             {getScoreMessage()}
           </p>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 32,
-              marginTop: 20,
-            }}
-          >
+          <div className="flex gap-8 mt-5">
             {[
               { label: "Correct", value: correct },
               { label: "Wrong", value: failed.length },
               { label: "Total", value: total },
             ].map((s, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <p
-                  style={{
-                    color: "white",
-                    fontSize: 24,
-                    fontWeight: 800,
-                    margin: 0,
-                  }}
-                >
-                  {s.value}
-                </p>
-                <p
-                  style={{
-                    color: "rgba(255,255,255,0.7)",
-                    fontSize: 11,
-                    margin: "2px 0 0",
-                  }}
-                >
-                  {s.label}
-                </p>
+              <div key={i} className="text-center">
+                <p className="text-white text-2xl font-extrabold">{s.value}</p>
+                <p className="text-white/70 text-xs mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
@@ -261,20 +129,10 @@ const Results = () => {
 
         {/* Passed */}
         {passed && (
-          <div
-            style={{
-              background: "#ECEDC7",
-              borderRadius: 20,
-              padding: 20,
-              textAlign: "center",
-              marginBottom: 20,
-            }}
-          >
-            <p style={{ fontSize: 28, margin: "0 0 8px" }}>🎯</p>
-            <p style={{ fontWeight: 700, color: "#1C1B19", margin: 0 }}>
-              You passed everything!
-            </p>
-            <p style={{ color: "#78716C", fontSize: 13, margin: "4px 0 0" }}>
+          <div className="bg-accent-sage rounded-2xl p-5 text-center mb-5">
+            <p className="text-2xl mb-2">🎯</p>
+            <p className="font-bold text-foreground">You passed everything!</p>
+            <p className="text-muted-foreground text-sm mt-1">
               Try again for different questions.
             </p>
           </div>
@@ -282,47 +140,19 @@ const Results = () => {
 
         {/* Failed Explanation */}
         {!passed && (
-          <div style={{ marginBottom: 20 }}>
-            <h2
-              style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: "#1C1B19",
-                margin: "0 0 12px",
-              }}
-            >
+          <div className="mb-5">
+            <h2 className="text-base font-bold text-foreground mb-3">
               Areas to Review
             </h2>
             {isLoading ? (
-              <div
-                style={{
-                  background: "#F5F5F4",
-                  borderRadius: 20,
-                  padding: 32,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                <div
-                  style={{
-                    width: 32,
-                    height: 32,
-                    border: "4px solid #F5F5F4",
-                    borderTop: "4px solid #F95E08",
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                />
-                <p style={{ color: "#78716C", fontSize: 13, margin: 0 }}>
+              <div className="bg-muted rounded-2xl p-8 flex flex-col items-center gap-3">
+                <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />
+                <p className="text-muted-foreground text-sm">
                   Echo is reviewing your mistakes...
                 </p>
               </div>
             ) : failedExplanation ? (
-              <div
-                style={{ background: "#F5F5F4", borderRadius: 20, padding: 20 }}
-              >
+              <div className="bg-muted rounded-2xl p-5">
                 <MarkdownContent content={failedExplanation} />
               </div>
             ) : null}
@@ -330,67 +160,30 @@ const Results = () => {
         )}
 
         {/* Answer Breakdown */}
-        <div style={{ marginBottom: 20 }}>
-          <h2
-            style={{
-              fontSize: 16,
-              fontWeight: 700,
-              color: "#1C1B19",
-              margin: "0 0 12px",
-            }}
-          >
+        <div className="mb-5">
+          <h2 className="text-base font-bold text-foreground mb-3">
             Answer Breakdown
           </h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="space-y-3">
             {answers.map((answer, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
-                style={{
-                  background: "#F5F5F4",
-                  borderRadius: 16,
-                  padding: 16,
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 12,
-                }}
+                className="bg-muted rounded-2xl p-4 flex items-start gap-3"
               >
                 {answer.isCorrect ? (
-                  <CheckCircle
-                    size={20}
-                    color="#22C55E"
-                    style={{ flexShrink: 0, marginTop: 2 }}
-                  />
+                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                 ) : (
-                  <XCircle
-                    size={20}
-                    color="#EF4444"
-                    style={{ flexShrink: 0, marginTop: 2 }}
-                  />
+                  <XCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
                 )}
-                <div style={{ flex: 1 }}>
-                  <p
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#1C1B19",
-                      margin: 0,
-                      lineHeight: 1.4,
-                    }}
-                  >
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-foreground leading-snug">
                     {answer.question}
                   </p>
                   {!answer.isCorrect && (
-                    <p
-                      style={{
-                        fontSize: 12,
-                        color: "#22C55E",
-                        margin: "4px 0 0",
-                        fontWeight: 600,
-                      }}
-                    >
+                    <p className="text-xs text-success mt-1 font-semibold">
                       ✓ {answer.correct}
                     </p>
                   )}
@@ -401,43 +194,21 @@ const Results = () => {
         </div>
 
         {/* Actions */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="space-y-3">
           <button
             onClick={() => navigate(`/notes/${id}/study`)}
-            style={{
-              width: "100%",
-              background: "linear-gradient(135deg, #F95E08, #FE8118)",
-              padding: 16,
-              borderRadius: 16,
-              border: "none",
-              cursor: "pointer",
-              color: "white",
-              fontWeight: 700,
-              fontSize: 15,
-            }}
+            className="w-full gradient-primary py-4 rounded-2xl text-white font-bold active:scale-95 transition-transform"
           >
             Try Again
           </button>
           <button
             onClick={() => navigate("/dashboard")}
-            style={{
-              width: "100%",
-              background: "#F5F5F4",
-              padding: 16,
-              borderRadius: 16,
-              border: "none",
-              cursor: "pointer",
-              color: "#1C1B19",
-              fontWeight: 700,
-              fontSize: 15,
-            }}
+            className="w-full bg-muted py-4 rounded-2xl text-foreground font-bold active:scale-95 transition-transform"
           >
             Back to Dashboard
           </button>
         </div>
       </div>
-
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 };

@@ -1,23 +1,26 @@
 import axios from "axios";
+import useAuthStore from "../store/authStore";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-  withCredentials: true,
+  // Remove withCredentials — you're not using cookies anymore
 });
 
-// Request interceptor
 api.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    const token = useAuthStore.getState().token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
   (error) => Promise.reject(error),
 );
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      window.location.href = "/";
-    }
+    // Don't redirect here — let the store handle it
     return Promise.reject(error);
   },
 );

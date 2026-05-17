@@ -5,9 +5,9 @@ import useAuthStore from "../store/authStore";
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading, fetchUser } = useAuthStore();
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
   if (isLoading) {
     return (

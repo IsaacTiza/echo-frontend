@@ -8,12 +8,11 @@ import Navbar from "../components/Navbar";
 import toast from "react-hot-toast";
 
 const typeConfig = {
-  text: { color: "bg-[#ECEDC7]", label: "Text", icon: FileText },
-  pdf: { color: "bg-[#DED1E8]", label: "PDF", icon: File },
-  image: { color: "bg-[#D2E4E2]", label: "Image", icon: Image },
-  docx: { color: "bg-[#D9E7CB]", label: "Word", icon: FileText },
-  pptx: { color: "bg-[#DED1E8]", label: "Slides", icon: File },
-  txt: { color: "bg-[#ECEDC7]", label: "Text", icon: FileText },
+  text: { color: "bg-accent-sage", label: "Text", icon: FileText },
+  pdf: { color: "bg-accent-lavender", label: "PDF", icon: File },
+  image: { color: "bg-accent-teal", label: "Image", icon: Image },
+  docx: { color: "bg-accent-green", label: "Word", icon: FileText },
+  txt: { color: "bg-accent-sage", label: "Text", icon: FileText },
 };
 
 const Dashboard = () => {
@@ -45,9 +44,9 @@ const Dashboard = () => {
   const firstName = user?.name?.split(" ")[0] || "there";
 
   return (
-    <div className="min-h-dvh bg-[#F5F5F4] pb-24">
+    <div className="min-h-dvh bg-muted pb-24">
       {/* Header */}
-      <div className="bg-white px-6 pt-14 pb-6">
+      <div className="bg-card px-6 pt-14 pb-6">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,8 +54,8 @@ const Dashboard = () => {
           className="flex items-center justify-between"
         >
           <div>
-            <p className="text-[#78716C] text-sm">{getGreeting()},</p>
-            <h1 className="text-2xl font-bold text-[#1C1B19]">
+            <p className="text-muted-foreground text-sm">{getGreeting()},</p>
+            <h1 className="text-2xl font-bold text-foreground">
               {firstName} 👋
             </h1>
           </div>
@@ -75,21 +74,21 @@ const Dashboard = () => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex gap-3 mt-5"
         >
-          <div className="flex-1 bg-[#F5F5F4] rounded-2xl p-4">
-            <p className="text-2xl font-bold text-[#1C1B19]">{notes.length}</p>
-            <p className="text-xs text-[#78716C] mt-1">Total Notes</p>
+          <div className="flex-1 bg-muted rounded-2xl p-4">
+            <p className="text-2xl font-bold text-foreground">{notes.length}</p>
+            <p className="text-xs text-muted-foreground mt-1">Total Notes</p>
           </div>
-          <div className="flex-1 bg-[#F5F5F4] rounded-2xl p-4">
-            <p className="text-2xl font-bold text-[#F95E08]">
+          <div className="flex-1 bg-muted rounded-2xl p-4">
+            <p className="text-2xl font-bold text-primary">
               {10 - (user?.dailyUsage || 0)}
             </p>
-            <p className="text-xs text-[#78716C] mt-1">AI Credits Left</p>
+            <p className="text-xs text-muted-foreground mt-1">AI Credits Left</p>
           </div>
-          <div className="flex-1 bg-[#F5F5F4] rounded-2xl p-4">
-            <p className="text-2xl font-bold text-[#1C1B19]">
+          <div className="flex-1 bg-muted rounded-2xl p-4">
+            <p className="text-2xl font-bold text-foreground">
               {notes.filter((n) => n.explanation).length}
             </p>
-            <p className="text-xs text-[#78716C] mt-1">Explained</p>
+            <p className="text-xs text-muted-foreground mt-1">Explained</p>
           </div>
         </motion.div>
       </div>
@@ -118,13 +117,13 @@ const Dashboard = () => {
       {/* Notes List */}
       <div className="px-6 mt-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-[#1C1B19]">Your Notes</h2>
-          <span className="text-sm text-[#78716C]">{notes.length} notes</span>
+          <h2 className="text-lg font-bold text-foreground">Your Notes</h2>
+          <span className="text-sm text-muted-foreground">{notes.length} notes</span>
         </div>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
-            <div className="w-8 h-8 border-4 border-[#F95E08] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : notes.length === 0 ? (
           <motion.div
@@ -132,11 +131,11 @@ const Dashboard = () => {
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-16 text-center"
           >
-            <div className="w-16 h-16 bg-[#ECEDC7] rounded-2xl flex items-center justify-center mb-4">
-              <FileText className="w-8 h-8 text-[#78716C]" />
+            <div className="w-16 h-16 bg-accent-sage rounded-2xl flex items-center justify-center mb-4">
+              <FileText className="w-8 h-8 text-muted-foreground" />
             </div>
-            <p className="text-[#1C1B19] font-semibold">No notes yet</p>
-            <p className="text-[#78716C] text-sm mt-1">
+            <p className="text-foreground font-semibold">No notes yet</p>
+            <p className="text-muted-foreground text-sm mt-1">
               Upload your first note to get started
             </p>
           </motion.div>
@@ -153,25 +152,25 @@ const Dashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   onClick={() => navigate(`/notes/${note._id}/mode`)}
-                  className="bg-white rounded-2xl p-4 flex items-center gap-4 card-shadow active:scale-95 transition-transform cursor-pointer"
+                  className="bg-card rounded-2xl p-4 flex items-center gap-4 card-shadow active:scale-95 transition-transform cursor-pointer"
                 >
                   <div
                     className={`w-12 h-12 ${config.color} rounded-xl flex items-center justify-center flex-shrink-0`}
                   >
-                    <Icon className="w-6 h-6 text-[#1C1B19]" />
+                    <Icon className="w-6 h-6 text-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[#1C1B19] truncate">
+                    <p className="font-semibold text-foreground truncate">
                       {note.title}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-[#78716C]">
+                      <span className="text-xs text-muted-foreground">
                         {config.label}
                       </span>
                       {note.explanation && (
                         <>
-                          <span className="text-[#78716C]">·</span>
-                          <span className="text-xs text-[#F95E08] font-medium">
+                          <span className="text-muted-foreground">·</span>
+                          <span className="text-xs text-primary font-medium">
                             Explained
                           </span>
                         </>
@@ -180,9 +179,9 @@ const Dashboard = () => {
                   </div>
                   <button
                     onClick={(e) => handleDelete(e, note._id)}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F5F5F4] active:scale-95 transition-transform flex-shrink-0"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-muted active:scale-95 transition-transform flex-shrink-0"
                   >
-                    <Trash2 className="w-4 h-4 text-[#78716C]" />
+                    <Trash2 className="w-4 h-4 text-muted-foreground" />
                   </button>
                 </motion.div>
               );

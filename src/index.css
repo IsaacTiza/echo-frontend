@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "@fontsource-variable/onest";
 
+/* Enable class-based dark mode in Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary: #F95E08;
   --color-primary-light: #FE8118;
@@ -17,7 +20,6 @@
   --color-accent-teal: #D2E4E2;
   --color-accent-green: #D9E7CB;
   --color-destructive: #EF4444;
-  --color-destructive-foreground: #FFFFFF;
   --color-success: #22C55E;
   --color-warning: #F59E0B;
   --font-sans: "Onest Variable", sans-serif;
@@ -77,4 +79,18 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+}
+/* Dark mode variable overrides */
+.dark {
+  --color-background: #1C1B19;
+  --color-foreground: #FFFFFF;
+  --color-card: #2C2B28;
+  --color-card-foreground: #FFFFFF;
+  --color-muted: #3C3B38;
+  --color-muted-foreground: #A8A29E;
+  --color-border: #3C3B38;
+  --color-accent-sage: #3A3D1E;
+  --color-accent-lavender: #3A2E45;
+  --color-accent-teal: #1E3533;
+  --color-accent-green: #243D1A;
 }
