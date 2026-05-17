@@ -1,17 +1,88 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Brain, Zap } from "lucide-react";
+import { ArrowLeft, Brain, Zap, Download, FileText } from "lucide-react";
 import useNoteStore from "../store/noteStore";
+import api from "../lib/api";
+import toast from "react-hot-toast";
 
 const ModeSelect = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currentNote, fetchNote, isLoading } = useNoteStore();
+  const [downloading, setDownloading] = useState(false);
+  const [downloadingExplanation, setDownloadingExplanation] = useState(false);
 
   useEffect(() => {
     fetchNote(id);
   }, [id]);
+
+  const handleDownloadNote = async () => {
+    setDownloading(true);
+    try {
+      const response = await api.get(`/notes/${id}/download`, {
+        responseType: "blob",
+      });
+
+      const contentDisposition = response.headers["content-disposition"];
+      let filename = currentNote?.title || "note";
+
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="(.+)"/);
+        if (match) filename = match[1];
+      } else {
+        const ext =
+          currentNote?.type === "pdf"
+            ? ".pdf"
+            : currentNote?.type === "image"
+              ? ".jpg"
+              : currentNote?.type === "docx"
+                ? ".docx"
+                : ".txt";
+        filename = `${currentNote?.title}${ext}`;
+      }
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success("Note downloaded");
+    } catch {
+      toast.error("Failed to download note");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const handleDownloadExplanation = () => {
+    if (!currentNote?.explanation) {
+      toast.error("No explanation yet. Go to Understand mode first.");
+      return;
+    }
+
+    setDownloadingExplanation(true);
+    try {
+      const content = `${currentNote.title}\n${"=".repeat(currentNote.title.length)}\n\n${currentNote.explanation}`;
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${currentNote.title} - Explanation.txt`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success("Explanation downloaded");
+    } catch {
+      toast.error("Failed to download explanation");
+    } finally {
+      setDownloadingExplanation(false);
+    }
+  };
 
   return (
     <div className="min-h-dvh bg-background px-6 pt-14 pb-10">
@@ -101,6 +172,61 @@ const ModeSelect = () => {
               ))}
             </div>
           </motion.button>
+
+          {/* Download Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="bg-muted rounded-2xl p-5"
+          >
+            <p className="text-sm font-bold text-foreground mb-3">Downloads</p>
+            <div className="space-y-3">
+              {/* Download Original */}
+              <button
+                onClick={handleDownloadNote}
+                disabled={downloading}
+                className="w-full flex items-center gap-3 bg-card rounded-xl p-4 active:scale-95 transition-transform disabled:opacity-60"
+              >
+                <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Download className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-semibold text-foreground">
+                    {downloading ? "Downloading..." : "Download Original Note"}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {currentNote?.type?.toUpperCase()} file
+                  </p>
+                </div>
+              </button>
+
+              {/* Download Explanation */}
+              <button
+                onClick={handleDownloadExplanation}
+                disabled={downloadingExplanation || !currentNote?.explanation}
+                className="w-full flex items-center gap-3 bg-card rounded-xl p-4 active:scale-95 transition-transform disabled:opacity-60"
+              >
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${currentNote?.explanation ? "gradient-primary" : "bg-muted"}`}
+                >
+                  <FileText className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-semibold text-foreground">
+                    {downloadingExplanation
+                      ? "Downloading..."
+                      : "Download AI Explanation"}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {currentNote?.explanation
+                      ? "Explanation ready"
+                      : "Generate explanation first"}
+                  </p>
+                </div>
+              </button>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
