@@ -24,15 +24,16 @@ const Dashboard = () => {
     fetchNotes();
   }, []);
 
-  const handleDelete = async (e, id) => {
-    e.stopPropagation();
-    try {
-      await deleteNote(id);
-      toast.success("Note deleted");
-    } catch {
-      toast.error("Failed to delete note");
-    }
-  };
+const handleDelete = async (e, id) => {
+  e.stopPropagation();
+  e.preventDefault();
+  try {
+    await deleteNote(id);
+    toast.success("Note deleted");
+  } catch {
+    toast.error("Failed to delete note");
+  }
+};
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -178,6 +179,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={(e) => handleDelete(e, note._id)}
                     className="w-9 h-9 flex items-center justify-center rounded-xl bg-muted active:scale-95 transition-transform flex-shrink-0"
                   >
