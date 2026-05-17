@@ -37,7 +37,7 @@ const Navbar = () => {
         left: "50%",
         transform: "translateX(-50%)",
         width: "100%",
-        maxWidth: 480,
+        // maxWidth: 480,
         background: bg,
         borderTop: `1px solid ${border}`,
         paddingBottom: "env(safe-area-inset-bottom)",
