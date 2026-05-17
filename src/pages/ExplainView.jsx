@@ -54,9 +54,30 @@ const ExplainView = () => {
       setHasLoaded(true);
     } catch (error) {
       const msg = error.response?.data?.message;
-      toast.error(
-        msg?.includes("Daily limit") ? msg : "Failed to generate explanation",
-      );
+      const status = error.response?.status;
+
+      if (msg?.includes("Daily limit")) {
+        toast.error("Daily AI limit reached. Come back tomorrow.", {
+          duration: 5000,
+          icon: "🔒",
+        });
+      } else if (status === 429) {
+        toast.error(
+          "AI is busy right now. Please wait a moment and try again.",
+          {
+            duration: 5000,
+            icon: "⏳",
+          },
+        );
+      } else if (status === 404) {
+        toast.error("Note not found. It may have been deleted.", {
+          duration: 4000,
+        });
+      } else {
+        toast.error("Could not generate explanation. Please try again.", {
+          duration: 4000,
+        });
+      }
     } finally {
       setIsLoading(false);
     }

@@ -40,9 +40,23 @@ const StudySession = () => {
       }
     } catch (error) {
       const msg = error.response?.data?.message;
-      toast.error(
-        msg?.includes("Daily limit") ? msg : "Failed to generate study content",
-      );
+      const status = error.response?.status;
+
+      if (msg?.includes("Daily limit")) {
+        toast.error("Daily AI limit reached. Come back tomorrow.", {
+          duration: 5000,
+          icon: "🔒",
+        });
+      } else if (status === 429) {
+        toast.error("AI is busy right now. Wait a moment and try again.", {
+          duration: 5000,
+          icon: "⏳",
+        });
+      } else {
+        toast.error("Failed to generate content. Please try again.", {
+          duration: 4000,
+        });
+      }
       setMode(null);
     } finally {
       setIsLoading(false);

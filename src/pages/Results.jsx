@@ -73,10 +73,27 @@ const Results = () => {
       setFailedExplanation(res.data.explanation);
     } catch (error) {
       const msg = error.response?.data?.message;
-      toast.error(msg?.includes("Daily limit") ? msg : "Could not load review");
+      const status = error.response?.status;
+
+      if (msg?.includes("Daily limit")) {
+        toast.error("Daily AI limit reached. Review explanation unavailable.", {
+          duration: 5000,
+          icon: "🔒",
+        });
+      } else if (status === 429) {
+        toast.error("AI is busy. Review explanation unavailable this time.", {
+          duration: 4000,
+          icon: "⏳",
+        });
+      } else {
+        toast.error("Could not load review. Try again later.", {
+          duration: 4000,
+        });
+      }
     } finally {
       setIsLoading(false);
     }
+    
   };
 
   const getScoreMessage = () => {
