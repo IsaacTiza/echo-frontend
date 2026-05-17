@@ -7,7 +7,7 @@ const features = [
   {
     emoji: "📄",
     title: "Any Format",
-    desc: "PDF, DOCX, PPTX, images or plain text",
+    desc: "PDF, DOCX, images or plain text",
     color: "var(--color-accent-sage)",
   },
   {
@@ -42,9 +42,9 @@ const Landing = () => {
     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/auth/google`;
   };
 
-  const handleFacebookLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`;
-  };
+  // const handleFacebookLogin = () => {
+  //   window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/auth/facebook`;
+  // };
 
   return (
     <div
@@ -278,7 +278,7 @@ const Landing = () => {
           </span>
         </button>
 
-        {/* Facebook Button — brand color, never changes */}
+        {/* Facebook Button — brand color, never changes
         <button
           onClick={handleFacebookLogin}
           style={{
@@ -305,7 +305,7 @@ const Landing = () => {
           <span style={{ color: "white", fontWeight: 700, fontSize: 15 }}>
             Continue with Facebook
           </span>
-        </button>
+        </button> */}
 
         <p
           style={{
