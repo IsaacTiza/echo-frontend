@@ -21,17 +21,25 @@ const handleDownloadNote = async () => {
   setDownloading(true);
   try {
     if (currentNote?.fileUrl) {
-      // Direct download from Cloudinary
+      const extMap = {
+        pdf: ".pdf",
+        image: ".jpg",
+        docx: ".docx",
+        txt: ".txt",
+      };
+      const ext = extMap[currentNote.type] || "";
+      const filename =
+        currentNote?.originalFilename || `${currentNote.title}${ext}`;
+
       const link = document.createElement("a");
       link.href = currentNote.fileUrl;
-      link.setAttribute("download", currentNote.title);
+      link.setAttribute("download", filename);
       link.setAttribute("target", "_blank");
       document.body.appendChild(link);
       link.click();
       link.remove();
       toast.success("Note downloaded");
     } else if (currentNote?.content) {
-      // Text note — generate txt file
       const blob = new Blob([currentNote.content], { type: "text/plain" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
